@@ -1,0 +1,36 @@
+{
+  "colors": {
+    "primary": {
+      "violet": {
+        "100": {
+          "value": " #939BF4"
+        },
+        "200": {
+          "value": "#5964E0"
+        }
+      },
+      "blue": {
+        "value": "#19202D"
+      },
+      "midnight": {
+        "value": " #121721"
+      }
+    },
+    "secondary": {
+      "white": {
+        "value": "#FFFFFF"
+      }
+    },
+    "grey": {
+      "100": {
+        "value": " #F4F6F8"
+      },
+      "200": {
+        "value": " #9DAEC2"
+      },
+      "300": {
+        "value": " #6E8098"
+      }
+    }
+  }
+}

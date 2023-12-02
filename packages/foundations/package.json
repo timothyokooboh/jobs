@@ -1,0 +1,16 @@
+{
+  "name": "@jobs/foundations",
+  "version": "1.0.0",
+  "license": "MIT",
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "style-dictionary": "^3.9.0",
+    "typescript": "^5.3.2"
+  },
+  "scripts": {
+    "dev": "style-dictionary build && tsc",
+    "build": "style-dictionary build && tsc"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts"
+}

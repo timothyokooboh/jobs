@@ -1,0 +1,41 @@
+{
+  "fontFamily": {
+    "kumbh-sans": {
+      "value": "Kumbh Sans"
+    }
+  },
+  "fontSize": {
+    "body": {
+      "value": "16px"
+    },
+    "h1": {
+      "value": "28px"
+    },
+    "h2": {
+      "value": "24px"
+    },
+    "h3": {
+      "value": "20px"
+    },
+    "h4": {
+      "value": "14px"
+    }
+  },
+  "lineHeight": {
+    "body": {
+      "value": "26px"
+    },
+    "h1": {
+      "value": "34px"
+    },
+    "h2": {
+      "value": "29px"
+    },
+    "h3": {
+      "value": "24px"
+    },
+    "h4": {
+      "value": "18px"
+    }
+  }
+}

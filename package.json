@@ -1,0 +1,11 @@
+{
+  "name": "jobs",
+  "packageManager": "yarn@4.0.2",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "prettier": "^3.1.0",
+    "turbo": "^1.10.16"
+  }
+}
