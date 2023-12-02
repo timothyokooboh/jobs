@@ -5,12 +5,20 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@jobs/foundations@workspace:packages/foundations":
+"@jobs/foundations@workspace:^, @jobs/foundations@workspace:packages/foundations":
   version: 0.0.0-use.local
   resolution: "@jobs/foundations@workspace:packages/foundations"
   dependencies:
     style-dictionary: "npm:^3.9.0"
     typescript: "npm:^5.3.2"
+  languageName: unknown
+  linkType: soft
+
+"@jobs/ui-library@workspace:packages/ui-library":
+  version: 0.0.0-use.local
+  resolution: "@jobs/ui-library@workspace:packages/ui-library"
+  dependencies:
+    "@jobs/foundations": "workspace:^"
   languageName: unknown
   linkType: soft
 

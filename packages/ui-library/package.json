@@ -1,0 +1,7 @@
+{
+  "name": "@jobs/ui-library",
+  "packageManager": "yarn@4.0.2",
+  "dependencies": {
+    "@jobs/foundations": "*"
+  }
+}
