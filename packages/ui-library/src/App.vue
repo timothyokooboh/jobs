@@ -3,8 +3,10 @@ import { ref } from "vue";
 import BaseButton from "./components/BaseButton.vue";
 import BaseInput from "./components/BaseInput.vue";
 import BaseInputGroup from "./components/BaseInputGroup.vue";
+import BaseDarkModeSwitch from "./components/BaseDarkModeSwitch.vue";
 
 const name = ref("");
+const isOn = ref(false);
 </script>
 
 <template>
@@ -22,7 +24,9 @@ const name = ref("");
       </template>
       <template #rightAddon>✉️</template>
     </BaseInputGroup>
-    {{ name }}
+
+    <BaseDarkModeSwitch class="mt-10" v-model:isDark="isOn" />
+    {{ isOn }}
   </div>
 </template>
 
