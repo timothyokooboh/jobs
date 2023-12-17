@@ -4,9 +4,11 @@ import BaseButton from "./components/BaseButton.vue";
 import BaseInput from "./components/BaseInput.vue";
 import BaseInputGroup from "./components/BaseInputGroup.vue";
 import BaseDarkModeSwitch from "./components/BaseDarkModeSwitch.vue";
+import BaseCheckbox from "./components/BaseCheckbox.vue";
 
 const name = ref("");
 const isOn = ref(false);
+const fullTime = ref(false);
 </script>
 
 <template>
@@ -24,6 +26,11 @@ const isOn = ref(false);
       </template>
       <template #rightAddon>✉️</template>
     </BaseInputGroup>
+
+    <div class="mt-10">
+      <BaseCheckbox v-model="fullTime" />
+      fulltime: {{ fullTime }}
+    </div>
 
     <BaseDarkModeSwitch class="mt-10" v-model:isDark="isOn" />
     {{ isOn }}
