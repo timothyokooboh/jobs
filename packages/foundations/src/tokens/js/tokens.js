@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Sat, 02 Dec 2023 16:08:46 GMT
+ * Generated on Sun, 17 Dec 2023 09:02:17 GMT
  */
 
 module.exports = {
@@ -144,65 +144,71 @@ module.exports = {
           "secondary",
           "white"
         ]
-      }
-    },
-    "grey": {
-      "100": {
-        "value": " #F4F6F8",
-        "filePath": "src/tokens/colors.json",
-        "isSource": true,
-        "original": {
-          "value": " #F4F6F8"
-        },
-        "name": "ColorsGrey100",
-        "attributes": {
-          "category": "colors",
-          "type": "grey",
-          "item": "100"
-        },
-        "path": [
-          "colors",
-          "grey",
-          "100"
-        ]
       },
-      "200": {
-        "value": " #9DAEC2",
-        "filePath": "src/tokens/colors.json",
-        "isSource": true,
-        "original": {
-          "value": " #9DAEC2"
+      "grey": {
+        "100": {
+          "value": " #F4F6F8",
+          "filePath": "src/tokens/colors.json",
+          "isSource": true,
+          "original": {
+            "value": " #F4F6F8"
+          },
+          "name": "ColorsSecondaryGrey100",
+          "attributes": {
+            "category": "colors",
+            "type": "secondary",
+            "item": "grey",
+            "subitem": "100"
+          },
+          "path": [
+            "colors",
+            "secondary",
+            "grey",
+            "100"
+          ]
         },
-        "name": "ColorsGrey200",
-        "attributes": {
-          "category": "colors",
-          "type": "grey",
-          "item": "200"
+        "200": {
+          "value": " #9DAEC2",
+          "filePath": "src/tokens/colors.json",
+          "isSource": true,
+          "original": {
+            "value": " #9DAEC2"
+          },
+          "name": "ColorsSecondaryGrey200",
+          "attributes": {
+            "category": "colors",
+            "type": "secondary",
+            "item": "grey",
+            "subitem": "200"
+          },
+          "path": [
+            "colors",
+            "secondary",
+            "grey",
+            "200"
+          ]
         },
-        "path": [
-          "colors",
-          "grey",
-          "200"
-        ]
-      },
-      "300": {
-        "value": " #6E8098",
-        "filePath": "src/tokens/colors.json",
-        "isSource": true,
-        "original": {
-          "value": " #6E8098"
-        },
-        "name": "ColorsGrey300",
-        "attributes": {
-          "category": "colors",
-          "type": "grey",
-          "item": "300"
-        },
-        "path": [
-          "colors",
-          "grey",
-          "300"
-        ]
+        "300": {
+          "value": " #6E8098",
+          "filePath": "src/tokens/colors.json",
+          "isSource": true,
+          "original": {
+            "value": " #6E8098"
+          },
+          "name": "ColorsSecondaryGrey300",
+          "attributes": {
+            "category": "colors",
+            "type": "secondary",
+            "item": "grey",
+            "subitem": "300"
+          },
+          "path": [
+            "colors",
+            "secondary",
+            "grey",
+            "300"
+          ]
+        }
       }
     }
   },

@@ -23,10 +23,8 @@ module.exports = {
   screens: flattenValue(tokens.screens),
   colors: flattenValue(tokens.colors),
   fontSize: flattenValue(tokens.fontSize),
-  fontWeight: flattenValue(tokens.fontWeight),
   lineHeight: flattenValue(tokens.lineHeight),
   fontFamily: {
-    publicSans: "Public Sans",
-    ibarra: "Ibarra Real Nova",
+    kumbhSans: "kumbh-sans",
   },
 };

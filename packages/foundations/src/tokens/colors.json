@@ -19,17 +19,17 @@
     "secondary": {
       "white": {
         "value": "#FFFFFF"
-      }
-    },
-    "grey": {
-      "100": {
-        "value": " #F4F6F8"
       },
-      "200": {
-        "value": " #9DAEC2"
-      },
-      "300": {
-        "value": " #6E8098"
+      "grey": {
+        "100": {
+          "value": " #F4F6F8"
+        },
+        "200": {
+          "value": " #9DAEC2"
+        },
+        "300": {
+          "value": " #6E8098"
+        }
       }
     }
   }
