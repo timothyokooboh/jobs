@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import tokens from "@jobs/foundations/lib/tailwindExtends";
+import tokens from "@app/foundations/lib/tailwindExtends";
 
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts}"],

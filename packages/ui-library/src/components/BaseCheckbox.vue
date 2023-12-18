@@ -8,7 +8,7 @@
     />
     <img
       v-if="modelValue"
-      src="/checkmark.svg"
+      src="@rootImages/checkmark.svg"
       alt="checkmark"
       class="absolute top-[5px] left-[5px]"
     />

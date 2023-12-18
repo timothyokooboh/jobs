@@ -1,5 +1,5 @@
 {
-  "name": "@jobs/foundations",
+  "name": "@app/foundations",
   "version": "1.0.0",
   "license": "MIT",
   "packageManager": "yarn@4.0.2",

@@ -1,6 +1,7 @@
 <template>
   <div class="flex items-center">
-    <img src="/sun.svg" alt="sun" />
+    <img src="@rootImages/sun.svg" alt="sunlight" />
+
     <button
       class="group bg-white flex items-center mx-4 px-[5px] w-[48px] h-[24px] rounded-[25px]"
       @click="$emit('update:isDark', !isDark)"
@@ -10,7 +11,7 @@
         :class="{ 'translate-x-[25px]': isDark }"
       />
     </button>
-    <img src="/moon.svg" alt="moon" />
+    <img src="@rootImages/moon.svg" alt="moon" />
   </div>
 </template>
 
@@ -18,5 +19,6 @@
 defineProps({
   isDark: Boolean,
 });
+
 defineEmits(["update:isDark"]);
 </script>

@@ -2,7 +2,8 @@
   "name": "jobs",
   "packageManager": "yarn@4.0.2",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "devDependencies": {
     "prettier": "^3.1.0",
