@@ -54,6 +54,7 @@ __metadata:
     "@nuxt/devtools": "npm:latest"
     autoprefixer: "npm:^10.4.16"
     nuxt: "npm:^3.8.1"
+    nuxt-icon: "npm:^0.6.7"
     postcss: "npm:^8.4.32"
     tailwindcss: "npm:^3.3.6"
     vue: "npm:^3.3.8"
@@ -878,6 +879,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify/collections@npm:^1.0.366":
+  version: 1.0.371
+  resolution: "@iconify/collections@npm:1.0.371"
+  dependencies:
+    "@iconify/types": "npm:*"
+  checksum: 2b1e041bee5f9b54ad9b57f267be4086faff009285b1c01e15cbfc3782c84cdda5bdaab2ffe80f37e25bab83cdede64008a798ab2fd7f06b0d5c5cf92d26a04c
+  languageName: node
+  linkType: hard
+
+"@iconify/types@npm:*, @iconify/types@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@iconify/types@npm:2.0.0"
+  checksum: 65a3be43500c7ccacf360e136d00e1717f050b7b91da644e94370256ac66f582d59212bdb30d00788aab4fc078262e91c95b805d1808d654b72f6d2072a7e4b2
+  languageName: node
+  linkType: hard
+
+"@iconify/vue@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "@iconify/vue@npm:4.1.1"
+  dependencies:
+    "@iconify/types": "npm:^2.0.0"
+  peerDependencies:
+    vue: ">=3"
+  checksum: de10337f61ac5ed2b5eb17187463523935b035e16cbdd2199a02e036b064c28ddb2e630487c4402dec523bddabb3404b1c368a1ed977a68130496406787559f2
+  languageName: node
+  linkType: hard
+
 "@ioredis/commands@npm:^1.1.1":
   version: 1.2.0
   resolution: "@ioredis/commands@npm:1.2.0"
@@ -1187,7 +1215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/devtools-kit@npm:1.0.6":
+"@nuxt/devtools-kit@npm:1.0.6, @nuxt/devtools-kit@npm:^1.0.4":
   version: 1.0.6
   resolution: "@nuxt/devtools-kit@npm:1.0.6"
   dependencies:
@@ -6753,6 +6781,18 @@ __metadata:
     nuxt: bin/nuxi.mjs
     nuxt-cli: bin/nuxi.mjs
   checksum: c31cb271a895cb12d8dd16c61f46d88262368154ac4a8d3bcf9bf030cc631ef69ed9a95327e1a6791a6bb8771f5e23052d20143d9c6187691851385fc05b5f9d
+  languageName: node
+  linkType: hard
+
+"nuxt-icon@npm:^0.6.7":
+  version: 0.6.7
+  resolution: "nuxt-icon@npm:0.6.7"
+  dependencies:
+    "@iconify/collections": "npm:^1.0.366"
+    "@iconify/vue": "npm:^4.1.1"
+    "@nuxt/devtools-kit": "npm:^1.0.4"
+    "@nuxt/kit": "npm:^3.8.2"
+  checksum: d40b1845e90f845cec6beed89dbcc39a912151ab8fe70e388187a1941d5f5f9b0eb46666feb3a27991e3a7ace7b441e5e66da0ba67fdf0ef4d467df50fb09f7d
   languageName: node
   linkType: hard
 

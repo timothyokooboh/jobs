@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center">
+  <span class="flex items-center">
     <img src="@rootImages/sun.svg" alt="sunlight" />
 
     <button
@@ -12,7 +12,7 @@
       />
     </button>
     <img src="@rootImages/moon.svg" alt="moon" />
-  </div>
+  </span>
 </template>
 
 <script setup lang="ts">
