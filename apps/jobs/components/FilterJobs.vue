@@ -8,7 +8,7 @@ import {
 
 defineProps<{
   remote: boolean;
-  visa_sponsorship: boolean;
+  visa_sponsorship: boolean | null;
 }>();
 defineEmits(["search", "update:remote", "update:visa_sponsorship"]);
 </script>
@@ -39,6 +39,7 @@ defineEmits(["search", "update:remote", "update:visa_sponsorship"]);
         <BaseCheckbox
           id="visa"
           class="mr-4"
+          :checked="visa_sponsorship"
           @change="$emit('update:visa_sponsorship', $event.target.checked)"
         />
         <label for="visa" class="text-primary-blue font-[700]"

@@ -12,7 +12,7 @@ defineEmits(["start:filter"]);
       <div class="flex items-center">
         <img
           src="/images/filter.svg"
-          class="mr-[14px]"
+          class="mr-[14px] cursor-pointer"
           @click="$emit('start:filter')"
         />
         <div

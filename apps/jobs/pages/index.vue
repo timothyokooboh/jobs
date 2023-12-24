@@ -13,8 +13,8 @@ const { filteredJobs: jobs, search } = useGetJobs(params);
 const isModalOpen = ref(false);
 
 const handleSearch = () => {
-  search();
   isModalOpen.value = false;
+  search();
 };
 </script>
 
