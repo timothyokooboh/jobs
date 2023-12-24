@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@app/foundations": "*",
-    "@app/ui-library": "*"
+    "@app/ui-library": "*",
+    "@vueuse/nuxt": "^10.7.0",
+    "google-translate-api": "^2.3.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@types/google-translate-api": "^2.3.5",
     "autoprefixer": "^10.4.16",
     "nuxt": "^3.8.1",
     "nuxt-icon": "^0.6.7",

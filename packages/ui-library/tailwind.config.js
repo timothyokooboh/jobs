@@ -8,6 +8,6 @@ export default {
       ...tokens,
     },
   },
-  // darkMode: "class",
+  darkMode: "class",
   plugins: [],
 };
