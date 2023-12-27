@@ -5,7 +5,7 @@ import type { Job } from "~/types";
 
 const jobs = ref<Job[]>([]);
 const loading = ref(false);
-const filterJobsRef = ref(null);
+const filterJobsRef = ref<{ filters: { page: number } } | null>(null);
 
 const handlePagination = () => {
   if (filterJobsRef.value) {

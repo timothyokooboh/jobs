@@ -3,15 +3,35 @@ import type { Job } from "~/types";
 import { BaseButton } from "@app/ui-library";
 
 const route = useRoute();
-const { data, pending } = useFetch(`/api/jobs/${route.params.id}`);
-console.log(data.value);
+const { data, pending } = useFetch<{
+  id: string;
+  name: string;
+  company: { name: string };
+  locations: { name: string }[];
+  contents: string;
+  publication_date: string;
+  categories: { name: string }[];
+  levels: { name: string }[];
+  refs: { landing_page: string };
+}>(`/api/jobs/${route.params.id}`);
 
-const job = ref<Job>({});
+const job = ref<Job>({
+  id: "",
+  title: "",
+  company: "",
+  locations: [],
+  remote: false,
+  contents: "",
+  published_date: "",
+  categories: [],
+  levels: [],
+  url: "",
+});
 
 watch(
   data,
   (newValue) => {
-    if (newValue) {
+    if (data.value) {
       job.value = {
         id: data.value.id,
         title: data.value.name,
@@ -35,32 +55,34 @@ watch(
 <template>
   <div>
     <div v-if="pending" class="mt-10">
-      <BaseSkeletonLoader class="mb-5 max-w-[100%]" />
-      <BaseSkeletonLoader class="h-[400px] max-w-[100%]" />
+      <BaseSkeletonLoader class="mb-5 max-w-[inherit]" />
+      <BaseSkeletonLoader class="h-[400px] max-w-[inherit]" />
     </div>
 
     <section v-else>
       <div
-        class="relative bg-white top-[-10px] pt-[40px] pb-[40px] mb-6 dark:bg-primary-blue"
+        class="relative bg-white top-[-10px] pt-[40px] pb-[40px] mb-6 dark:bg-primary-blue md:flex md:justify-between md:items-center md:py-0 md:pr-10"
       >
-        <div
-          class="w-[50px] h-[50px] rounded-[15px] flex justify-center items-center absolute left-[50%] top-[-25px] shadow-md translate-x-[-50%]"
-          :style="{
-            backgroundColor: generateRandomColors(),
-          }"
-        >
+        <div class="mb-[27px] md:mb-0 md:flex md:items-center">
           <div
-            v-if="job.company"
-            class="uppercase font-[700] text-[10px] text-white"
+            class="w-[50px] h-[50px] rounded-[15px] flex justify-center items-center absolute left-[50%] top-[-25px] shadow-md translate-x-[-50%] md:relative md:left-0 md:top-0 md:translate-x-0 md:mr-10 md:w-[140px] md:h-[140px] md:rounded-none"
+            :style="{
+              backgroundColor: generateRandomColors(),
+            }"
           >
-            {{ job.company.slice(0, 4) }}
+            <div
+              v-if="job.company"
+              class="uppercase font-[700] text-[10px] text-white"
+            >
+              {{ job.company.slice(0, 10) }}
+            </div>
           </div>
-        </div>
 
-        <div
-          class="text-center text-primary-blue text-[20px] font-[700] mb-[27px]"
-        >
-          {{ job.company }}
+          <div
+            class="text-center text-primary-blue text-[20px] font-[700] dark:text-white"
+          >
+            {{ job.company }}
+          </div>
         </div>
 
         <div class="text-center">
@@ -106,6 +128,7 @@ watch(
         </section>
 
         <div
+          v-if="job.contents"
           v-html="job.contents"
           class="mt-8 text-secondary-grey-300 leading-[26px]"
           style="font-weight: 400"
