@@ -50,21 +50,21 @@ defineExpose({
       <BaseInput placeholder="Filter by title..." class="w-full" />
     </SearchByTitle>
 
-    <div class="hidden md:grid md:grid-cols-3">
+    <div class="hidden md:grid md:grid-cols-[1.5fr_1.5fr_2fr]">
       <SearchByTitle
         class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
       >
         <BaseInput placeholder="Filter by title..." class="w-full" />
       </SearchByTitle>
 
-      <SearchByLocation
+      <SearchByCategory
         class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
       >
         <BaseInput
           v-model="filters.location"
-          placeholder="Filter by location..."
+          placeholder="Filter by Category..."
         />
-      </SearchByLocation>
+      </SearchByCategory>
 
       <div class="flex justify-between items-center px-4 py-4">
         <div class="flex-1">

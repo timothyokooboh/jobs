@@ -5,7 +5,7 @@ import { BaseInputGroup, BaseInput } from "@app/ui-library";
 <template>
   <BaseInputGroup class="hidden md:flex">
     <template #leftAddon>
-      <Icon name="material-symbols:location-on" size="32px" color="#5964E0" />
+      <Icon name="material-symbols:category" size="32px" color="#5964E0" />
     </template>
     <template #input>
       <slot />

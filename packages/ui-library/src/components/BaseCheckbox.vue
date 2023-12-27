@@ -13,14 +13,40 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  modelValue: Boolean,
+const props = defineProps({
+  modelValue: {
+    type: null,
+  },
+  checkValue: {
+    type: null,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 const handleChange = (e: Event) => {
-  emit("update:modelValue", (e.target as HTMLInputElement).checked);
+  if (props.checkValue) {
+    if ((e.target as HTMLInputElement).checked) {
+      if (Array.isArray(props.modelValue)) {
+        const arr = props.modelValue;
+        arr.push(props.checkValue);
+        emit("update:modelValue", arr);
+      } else {
+        emit("update:modelValue", props.checkValue);
+      }
+    } else {
+      if (Array.isArray(props.modelValue)) {
+        let arr = props.modelValue;
+        arr = arr.filter((item) => item != props.checkValue);
+
+        emit("update:modelValue", arr);
+      } else {
+        emit("update:modelValue", "");
+      }
+    }
+  } else {
+    emit("update:modelValue", (e.target as HTMLInputElement).checked);
+  }
 };
 </script>
 
