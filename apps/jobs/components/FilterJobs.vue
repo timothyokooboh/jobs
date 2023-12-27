@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { BaseButton, BaseCheckbox, BaseInput } from "@app/ui-library";
-import type { Job } from "~/types";
 
-const emit = defineEmits(["list:jobs"]);
+const emit = defineEmits(["list:jobs", "is:loading"]);
 
 const page = ref(1);
 const remote = ref(false);
@@ -10,11 +9,19 @@ const remote = ref(false);
 const filters = ref<{ page: number; location?: string }>({
   page: page.value,
 });
-const { filteredJobs: jobs, search } = useGetJobs(filters);
+const { filteredJobs: jobs, loading } = useGetJobs(filters);
 watch(
   jobs,
   (newValue) => {
     emit("list:jobs", newValue);
+  },
+  { immediate: true },
+);
+
+watch(
+  loading,
+  (newValue) => {
+    emit("is:loading", newValue);
   },
   { immediate: true },
 );
@@ -71,7 +78,10 @@ defineExpose({
             >
           </div>
         </div>
-        <BaseButton @click="handleSearch" class="ml-2 px-[14px] lg:px-[36px]">
+        <BaseButton
+          @click="handleSearch"
+          class="ml-2 px-[14px] lg:px-[36px] dark:bg-primary-violet-200"
+        >
           Search
         </BaseButton>
       </div>

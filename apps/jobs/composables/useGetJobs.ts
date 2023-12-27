@@ -8,36 +8,42 @@ export const useGetJobs = (
   }),
 ) => {
   const jobs = ref<Job[]>([]);
+  const loading = ref(false);
 
   const params = ref<Record<string, any>>({ page: query.value.page });
 
   const getData = async () => {
-    const { data } = await useFetch<{
-      results: Record<string, any>[];
-    }>("/api/jobs", {
-      query: query.value,
-    });
+    try {
+      loading.value = true;
 
-    const res = data.value?.results.map((item: any) => {
-      return {
-        id: item.id,
-        title: item.name,
-        company: item.company.name,
-        locations: item.locations,
-        remote: !!item.locations.find(
-          (location: { name: string }) => location.name === "Flexible / Remote",
-        ),
-        contents: item.contents,
-        published_date: item.publication_date,
-        categories: item.categories,
-        levels: item.levels,
-        url: item.refs.landing_page,
-      };
-    }) as Job[];
+      const { data } = await useFetch<{
+        results: Record<string, any>[];
+      }>("/api/jobs", {
+        query: query.value,
+      });
 
-    jobs.value = [...jobs.value, ...res];
+      const res = data.value?.results.map((item: any) => {
+        return {
+          id: item.id,
+          title: item.name,
+          company: item.company.name,
+          locations: item.locations,
+          remote: !!item.locations.find(
+            (location: { name: string }) =>
+              location.name === "Flexible / Remote",
+          ),
+          contents: item.contents,
+          published_date: item.publication_date,
+          categories: item.categories,
+          levels: item.levels,
+          url: item.refs.landing_page,
+        };
+      }) as Job[];
 
-    console.log(data.value);
+      jobs.value = [...jobs.value, ...res];
+    } finally {
+      loading.value = false;
+    }
   };
 
   const filteredJobs = computed(() => {
@@ -86,6 +92,6 @@ export const useGetJobs = (
 
   return {
     filteredJobs,
-    search: () => {},
+    loading,
   };
 };

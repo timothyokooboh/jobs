@@ -38,7 +38,11 @@ defineEmits(["search", "update:remote", "update:visa_sponsorship"]);
         >
       </div>
 
-      <BaseButton class="w-full" type="button" @click="$emit('search')">
+      <BaseButton
+        class="w-full dark:bg-primary-violet-200"
+        type="button"
+        @click="$emit('search')"
+      >
         <div class="text-white font-[700]">Search</div>
       </BaseButton>
     </form>
