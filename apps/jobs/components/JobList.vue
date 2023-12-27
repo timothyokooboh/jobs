@@ -8,19 +8,12 @@ defineProps<{
 
 <template>
   <div>
-    <div class="flex flex-col gap-y-[49px]">
+    <div class="grid gap-y-[49px] gap-x-[11px] md:grid-cols-2 lg:grid-cols-3">
       <JobListItem
         v-for="job in jobs"
-        :key="job.slug"
-        :title="job.title"
-        :slug="job.slug"
-        :description="job.description"
-        :tags="job.tags"
-        :created_at="job.created_at"
-        :company_name="job.company_name"
-        :url="job.url"
-        :remote="job.remote"
-        :location="job.location"
+        :key="job.id"
+        v-bind="job"
+        class="hover:translate-y-[-5px] duration-200"
       />
     </div>
   </div>

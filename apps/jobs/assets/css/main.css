@@ -4,6 +4,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .clip-triangle {
+    clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  }
+  .clip-partial-eclipse {
+    clip-path: ellipse(34% 33% at 84% 27%);
+  }
+}
 
 *,
 *::after,

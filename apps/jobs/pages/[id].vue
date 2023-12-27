@@ -1,0 +1,129 @@
+<script setup lang="ts">
+import type { Job } from "~/types";
+import { BaseButton } from "@app/ui-library";
+
+const route = useRoute();
+const { data, pending } = useFetch(`/api/jobs/${route.params.id}`);
+console.log(data.value);
+
+const job = ref<Job>({});
+
+watch(
+  data,
+  (newValue) => {
+    if (newValue) {
+      job.value = {
+        id: data.value.id,
+        title: data.value.name,
+        company: data.value.company.name,
+        locations: data.value.locations,
+        remote: !!data.value.locations.find(
+          (location: { name: string }) => location.name === "Flexible / Remote",
+        ),
+        contents: data.value.contents,
+        published_date: data.value.publication_date,
+        categories: data.value.categories,
+        levels: data.value.levels,
+        url: data.value.refs.landing_page,
+      };
+    }
+  },
+  { immediate: true },
+);
+</script>
+
+<template>
+  <div>
+    <div
+      class="relative bg-white top-[-10px] pt-[40px] pb-[40px] mb-6 dark:bg-primary-blue"
+    >
+      <div
+        class="w-[50px] h-[50px] rounded-[15px] flex justify-center items-center absolute left-[50%] top-[-25px] shadow-md translate-x-[-50%]"
+        :style="{
+          backgroundColor: generateRandomColors(),
+        }"
+      >
+        <div
+          v-if="job.company"
+          class="uppercase font-[700] text-[10px] text-white"
+        >
+          {{ job.company.slice(0, 4) }}
+        </div>
+      </div>
+
+      <div
+        class="text-center text-primary-blue text-[20px] font-[700] mb-[27px]"
+      >
+        {{ job.company }}
+      </div>
+
+      <div class="text-center">
+        <a
+          :href="job.url"
+          target="_blank"
+          class="text-primary-violet-200 font-[700] bg-[#EEEFFC] px-5 py-4 rounded-[5px] dark:bg-[#1F273F]"
+        >
+          Company Site
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white py-10 px-6 mb-[140px] dark:bg-primary-blue">
+      <section class="md:flex md:justify-between md:items-center">
+        <div>
+          <div
+            class="text-secondary-grey-300 text-[16px] font-normal mb-3 dark:text-secondary-grey-300"
+          >
+            1w ago
+          </div>
+          <div
+            class="text-primary-blue text-[20px] font-[700] mb-3 dark:text-white"
+          >
+            {{ job.title }}
+          </div>
+          <div>
+            <div
+              v-for="location in job.locations"
+              :key="location.name"
+              class="text-primary-violet-200 text-[14px] font-[700]"
+            >
+              {{ location.name }}
+            </div>
+          </div>
+        </div>
+
+        <a :href="job.url" target="_blank">
+          <BaseButton class="w-full mt-[57px] dark:bg-primary-violet-200"
+            >Apply Now</BaseButton
+          >
+        </a>
+      </section>
+
+      <div
+        v-html="job.contents"
+        class="mt-8 text-secondary-grey-300 leading-[26px]"
+        style="font-weight: 400"
+      />
+    </div>
+
+    <div
+      class="bg-white z-10 p-6 fixed left-0 bottom-0 w-full dark:bg-primary-blue md:flex md:justify-between md:items-center"
+    >
+      <div class="hidden md:block">
+        <div class="text-primary-blue text-5 font-[700] dark:text-white">
+          {{ job.title }}
+        </div>
+        <div class="text-secondary-grey-300 text-base font-normal">
+          {{ job.company }}
+        </div>
+      </div>
+      <a :href="job.url" target="_blank">
+        <BaseButton class="w-full dark:bg-primary-violet-200 md:w-fit"
+          >Apply Now</BaseButton
+        >
+      </a>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>

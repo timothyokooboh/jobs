@@ -2,31 +2,22 @@
 import type { Job } from "~/types";
 
 defineProps<Job>();
-
-const bgColors = [
-  "#939BF4",
-  "#5964E0",
-  "#121721",
-  "#6E8098",
-  "#E99210",
-  "rgb(239 68 68)",
-];
-const randomColor = bgColors[Math.floor(Math.random() * (5 - 0 + 1) + 0)];
 </script>
 
 <template>
-  <div
-    class="relative bg-white px-[32px] pb-[36px] pt-[49px] rounded-[5px] dark:bg-primary-blue"
+  <NuxtLink
+    :to="`/${id}`"
+    class="flex flex-col relative bg-white px-[32px] pb-[36px] pt-[49px] rounded-[5px] dark:bg-primary-blue"
   >
     <!-- LOGO -->
     <div
       class="w-[50px] h-[50px] rounded-[15px] flex justify-center items-center absolute left-[32px] top-[-25px]"
       :style="{
-        backgroundColor: randomColor,
+        backgroundColor: generateRandomColors(),
       }"
     >
       <div class="uppercase font-[700] text-[10px] text-white">
-        {{ company_name.slice(0, 4) }}
+        {{ company.slice(0, 4) }}
       </div>
     </div>
 
@@ -44,13 +35,13 @@ const randomColor = bgColors[Math.floor(Math.random() * (5 - 0 + 1) + 0)];
     </div>
 
     <div class="text-secondary-grey-300 text-body font-normal mb-[44px]">
-      {{ company_name }}
+      {{ company }}
     </div>
 
-    <div class="text-primary-violet-200 text-[14px] font-[700]">
-      {{ location }}
+    <div class="text-primary-violet-200 text-[14px] font-[700] mt-auto">
+      {{ locations[0].name }}
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style scoped></style>

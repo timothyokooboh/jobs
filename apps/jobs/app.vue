@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg-[#F5F6F8] pb-5 min-h-screen dark:bg-primary-midnight">
     <TheHeader />
 
-    <div class="bg-[#F5F6F8] min-h-screen px-6 dark:bg-primary-midnight">
+    <div class="px-6 md:px-10 lg:px-[165px]">
       <NuxtPage />
     </div>
   </div>

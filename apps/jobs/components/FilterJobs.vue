@@ -1,57 +1,93 @@
 <script setup lang="ts">
-import {
-  BaseInputGroup,
-  BaseInput,
-  BaseCheckbox,
-  BaseButton,
-} from "@app/ui-library";
+import { BaseButton, BaseCheckbox, BaseInput } from "@app/ui-library";
+import type { Job } from "~/types";
 
-defineProps<{
-  remote: boolean;
-  visa_sponsorship: boolean | null;
-}>();
-defineEmits(["search", "update:remote", "update:visa_sponsorship"]);
+const emit = defineEmits(["list:jobs"]);
+
+const page = ref(1);
+const remote = ref(false);
+
+const filters = ref<{ page: number; location?: string }>({
+  page: page.value,
+});
+const { filteredJobs: jobs, search } = useGetJobs(filters);
+watch(
+  jobs,
+  (newValue) => {
+    emit("list:jobs", newValue);
+  },
+  { immediate: true },
+);
+
+const isModalOpen = ref(false);
+
+const handleSearch = () => {
+  isModalOpen.value = false;
+  if (remote.value) {
+    filters.value = { ...filters.value, location: "flexible/remote" };
+  } else {
+    filters.value = {
+      page: filters.value.page,
+    };
+  }
+};
+
+defineExpose({
+  filters,
+});
 </script>
 
 <template>
-  <div class="bg-white rounded-[10px]">
-    <BaseInputGroup class="border-b border-solid border-[#E2E6EA] w-full">
-      <template #leftAddon>
-        <img src="../public/images/location.svg" alt="location" />
-      </template>
-      <template #input>
-        <slot />
-      </template>
-    </BaseInputGroup>
+  <div class="bg-white dark:bg-primary-blue">
+    <SearchByTitle class="md:hidden" @start:filter="isModalOpen = true">
+      <BaseInput placeholder="Filter by title..." class="w-full" />
+    </SearchByTitle>
 
-    <form class="py-6 px-4">
-      <div class="flex mb-4">
-        <BaseCheckbox
-          id="remote"
-          class="mr-4"
-          :checked="remote"
-          @change="$emit('update:remote', $event.target.checked)"
+    <div class="hidden md:grid md:grid-cols-3">
+      <SearchByTitle
+        class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
+      >
+        <BaseInput placeholder="Filter by title..." class="w-full" />
+      </SearchByTitle>
+
+      <SearchByLocation
+        class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
+      >
+        <BaseInput
+          v-model="filters.location"
+          placeholder="Filter by location..."
         />
-        <label for="remote" class="text-primary-blue font-[700]">Remote</label>
-      </div>
+      </SearchByLocation>
 
-      <div class="flex mb-6">
-        <BaseCheckbox
-          id="visa"
-          class="mr-4"
-          :checked="visa_sponsorship"
-          @change="$emit('update:visa_sponsorship', $event.target.checked)"
+      <div class="flex justify-between items-center px-4 py-4">
+        <div class="flex-1">
+          <div>
+            <BaseCheckbox id="remote" v-model="remote" :checked="remote" />
+            <label
+              for="remote"
+              class="text-primary-blue font-[700] ml-8 dark:text-white"
+            >
+              Remote</label
+            >
+          </div>
+        </div>
+        <BaseButton @click="handleSearch" class="ml-2 px-[14px] lg:px-[36px]">
+          Search
+        </BaseButton>
+      </div>
+    </div>
+
+    <BaseModal v-if="isModalOpen" @close:modal="isModalOpen = false">
+      <FilterJobsModalContent
+        @search="handleSearch"
+        v-model:remote="remote"
+        class="w-[90%] max-w-[500px]"
+      >
+        <BaseInput
+          placeholder="Filter by location..."
+          v-model="filters.location"
         />
-        <label for="visa" class="text-primary-blue font-[700]"
-          >Visa Sponsorship</label
-        >
-      </div>
-
-      <BaseButton class="w-full" type="button" @click="$emit('search')">
-        <div class="text-white font-[700]">Search</div>
-      </BaseButton>
-    </form>
+      </FilterJobsModalContent>
+    </BaseModal>
   </div>
 </template>
-
-<style scoped></style>

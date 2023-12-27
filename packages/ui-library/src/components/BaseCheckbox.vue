@@ -1,12 +1,14 @@
 <template>
-  <label class="checkbox-wrapper">
+  <label class="checkbox-wrapper group">
     <input
       type="checkbox"
       :value="modelValue"
       @change="handleChange"
       v-bind="$attrs"
     />
-    <span class="checkmark"></span>
+    <span
+      class="checkmark bg-[#e7e8e9] dark:bg-[#313743] group-hover:bg-[#D7D8F7] dark:group-hover:bg-primary-midnight"
+    ></span>
   </label>
 </template>
 
@@ -60,13 +62,12 @@ export default {
   height: 25px;
   width: 25px;
   border-radius: 5px;
-  background-color: #e7e8e9;
 }
 
 /* On mouse-over, add a grey background color */
-.checkbox-wrapper:hover input ~ .checkmark {
-  background-color: #d7e8f7;
-}
+// .checkbox-wrapper:hover input ~ .checkmark {
+//   background-color: #d7e8f7;
+// }
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-wrapper input:checked ~ .checkmark {
