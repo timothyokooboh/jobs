@@ -3,7 +3,7 @@ import { BaseInputGroup, BaseInput } from "@app/ui-library";
 </script>
 
 <template>
-  <BaseInputGroup class="hidden md:flex">
+  <BaseInputGroup class="flex">
     <template #leftAddon>
       <Icon name="material-symbols:category" size="32px" color="#5964E0" />
     </template>

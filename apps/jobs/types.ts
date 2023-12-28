@@ -6,13 +6,13 @@ export interface Job {
   remote: boolean;
   contents: string;
   published_date: string;
-  categories: { name: string }[];
-  levels: { name: string }[];
+  categories: string[];
   url: string;
 }
 
 export interface QueryParams {
   page: number;
+  title: string;
   category?: string[];
   location?: string;
 }

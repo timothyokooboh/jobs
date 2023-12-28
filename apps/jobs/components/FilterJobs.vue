@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { BaseButton, BaseCheckbox, BaseInput } from "@app/ui-library";
 
+import { categories } from "~/constants";
+import type { QueryParams } from "~/types";
+
 const emit = defineEmits(["list:jobs", "is:loading"]);
 
 const page = ref(1);
+const title = ref("");
 const remote = ref(false);
+const selectedCategories = ref([...categories]);
+const showCategoryList = ref(false);
 
-const filters = ref<{ page: number; location?: string }>({
+const filters = ref<QueryParams>({
   page: page.value,
+  category: [...selectedCategories.value],
+  title: title.value,
 });
 const { filteredJobs: jobs, loading } = useGetJobs(filters);
 watch(
@@ -29,14 +37,24 @@ watch(
 const isModalOpen = ref(false);
 
 const handleSearch = () => {
+  console.log("shoot");
   isModalOpen.value = false;
+  let obj = { ...filters.value, title: title.value };
+
   if (remote.value) {
-    filters.value = { ...filters.value, location: "flexible/remote" };
-  } else {
-    filters.value = {
-      page: filters.value.page,
-    };
+    obj = { ...obj, page: 1, location: "flexible/remote" };
   }
+
+  if (selectedCategories.value.length > 0) {
+    obj = { ...obj, page: 1, category: [...selectedCategories.value] };
+  }
+
+  if (!remote.value && selectedCategories.value.length === 0) {
+    obj = { page: obj.page, title: obj.title };
+  }
+
+  filters.value = obj;
+  showCategoryList.value = false;
 };
 
 defineExpose({
@@ -46,25 +64,46 @@ defineExpose({
 
 <template>
   <div class="bg-white dark:bg-primary-blue">
-    <SearchByTitle class="md:hidden" @start:filter="isModalOpen = true">
-      <BaseInput placeholder="Filter by title..." class="w-full" />
+    <SearchByTitle
+      class="md:hidden"
+      @start:filter="isModalOpen = true"
+      @search="handleSearch"
+    >
+      <BaseInput
+        v-model="title"
+        placeholder="Filter by title..."
+        class="w-full"
+      />
     </SearchByTitle>
 
-    <div class="hidden md:grid md:grid-cols-[1.5fr_1.5fr_2fr]">
+    <div class="hidden md:grid md:grid-cols-[1.5fr_1.5fr_2fr] md:items-center">
       <SearchByTitle
         class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
       >
-        <BaseInput placeholder="Filter by title..." class="w-full" />
+        <BaseInput
+          v-model="title"
+          placeholder="Filter by title..."
+          class="w-full"
+        />
       </SearchByTitle>
 
-      <SearchByCategory
-        class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
-      >
-        <BaseInput
-          v-model="filters.location"
-          placeholder="Filter by Category..."
+      <div>
+        <SearchByCategory
+          class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
+        >
+          <BaseInput
+            placeholder="Filter by Category..."
+            @focus="showCategoryList = true"
+          />
+        </SearchByCategory>
+
+        <CategoryList
+          v-if="showCategoryList"
+          v-model:selectedCategories="selectedCategories"
+          @close:dropdown="showCategoryList = false"
+          class="hidden md:block"
         />
-      </SearchByCategory>
+      </div>
 
       <div class="flex justify-between items-center px-4 py-4">
         <div class="flex-1">
@@ -93,10 +132,23 @@ defineExpose({
         v-model:remote="remote"
         class="w-[90%] max-w-[500px]"
       >
-        <BaseInput
-          placeholder="Filter by location..."
-          v-model="filters.location"
-        />
+        <div>
+          <SearchByCategory
+            class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
+          >
+            <BaseInput
+              placeholder="Filter by Category..."
+              @focus="showCategoryList = true"
+            />
+          </SearchByCategory>
+
+          <CategoryList
+            v-if="showCategoryList"
+            v-model:selectedCategories="selectedCategories"
+            @close:dropdown="showCategoryList = false"
+            class="md:hidden"
+          />
+        </div>
       </FilterJobsModalContent>
     </BaseModal>
   </div>

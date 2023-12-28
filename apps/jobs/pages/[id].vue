@@ -11,7 +11,7 @@ const { data, pending } = useFetch<{
   contents: string;
   publication_date: string;
   categories: { name: string }[];
-  levels: { name: string }[];
+
   refs: { landing_page: string };
 }>(`/api/jobs/${route.params.id}`);
 
@@ -24,7 +24,6 @@ const job = ref<Job>({
   contents: "",
   published_date: "",
   categories: [],
-  levels: [],
   url: "",
 });
 
@@ -42,8 +41,8 @@ watch(
         ),
         contents: data.value.contents,
         published_date: data.value.publication_date,
-        categories: data.value.categories,
-        levels: data.value.levels,
+        categories: data.value.categories.map((item) => item.name),
+
         url: data.value.refs.landing_page,
       };
     }
@@ -53,7 +52,7 @@ watch(
 </script>
 
 <template>
-  <div>
+  <Transition name="fade" mode="out-in" appear>
     <div v-if="pending" class="mt-10">
       <BaseSkeletonLoader class="mb-5 max-w-[inherit]" />
       <BaseSkeletonLoader class="h-[400px] max-w-[inherit]" />
@@ -74,7 +73,12 @@ watch(
               v-if="job.company"
               class="uppercase font-[700] text-[10px] text-white"
             >
-              {{ job.company.slice(0, 10) }}
+              <div class="md:hidden">
+                {{ job.company.slice(0, 4) }}
+              </div>
+              <div class="hidden md:block">
+                {{ job.company.slice(0, 10) }}
+              </div>
             </div>
           </div>
 
@@ -153,7 +157,17 @@ watch(
         </a>
       </div>
     </section>
-  </div>
+  </Transition>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(30px);
+}
+</style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BaseInputGroup, BaseInput } from "@app/ui-library";
-defineEmits(["start:filter"]);
+defineEmits(["start:filter", "search"]);
 </script>
 
 <template>
@@ -16,11 +16,12 @@ defineEmits(["start:filter"]);
             class="mr-[14px] cursor-pointer"
             @click="$emit('start:filter')"
           />
-          <div
+          <button
+            @click="$emit('search')"
             class="h-[48px] w-[48px] bg-primary-violet-200 flex items-center justify-center rounded-[5px]"
           >
             <Icon name="ic:outline-search" size="32px" color="white" />
-          </div>
+          </button>
         </div>
       </template>
     </BaseInputGroup>

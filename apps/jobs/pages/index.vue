@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { BaseButton } from "@app/ui-library";
+import { BaseButton, BaseCheckbox } from "@app/ui-library";
 import FilterJobs from "~/components/FilterJobs.vue";
 import type { Job } from "~/types";
 
 const jobs = ref<Job[]>([]);
+const e = ref([]);
 const loading = ref(false);
 const filterJobsRef = ref<{ filters: { page: number } } | null>(null);
 
@@ -23,18 +24,50 @@ const handlePagination = () => {
       class="mb-10 relative top-[-35px]"
     />
 
-    <AppTransition from="bottom">
-      <div v-if="loading" class="flex justify-between flex-wrap gap-5">
-        <BaseSkeletonLoader v-for="n in 20" />
+    <Transition name="fade" mode="out-in" appear>
+      <div
+        v-if="loading"
+        key="loading"
+        class="flex justify-between flex-wrap gap-5"
+      >
+        <BaseSkeletonLoader
+          v-for="n in 20"
+          class="max-w-[100%] md:max-w-[350px]"
+        />
       </div>
 
-      <div v-else>
-        <JobList :jobs="jobs" class="mb-[32px]" />
+      <div v-else key="data">
+        <Transition name="fade" mode="out-in">
+          <div v-if="jobs.length === 0" class="text-center">
+            No results found
+          </div>
 
-        <div class="flex justify-center pb-[62px]">
-          <BaseButton @click="handlePagination"> Load More </BaseButton>
-        </div>
+          <div v-else>
+            <JobList :jobs="jobs" class="mb-[32px]" />
+
+            <div class="flex justify-center pb-[62px]">
+              <BaseButton
+                @click="handlePagination"
+                class="dark:bg-primary-violet-200"
+              >
+                Load More
+              </BaseButton>
+            </div>
+          </div>
+        </Transition>
       </div>
-    </AppTransition>
+    </Transition>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(30px);
+}
+</style>

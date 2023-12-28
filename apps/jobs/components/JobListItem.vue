@@ -38,8 +38,11 @@ defineProps<Job>();
       {{ company }}
     </div>
 
-    <div class="text-primary-violet-200 text-[14px] font-[700] mt-auto">
-      {{ locations[0].name }}
+    <div
+      v-if="locations && locations.length > 0"
+      class="text-primary-violet-200 text-[14px] font-[700] mt-auto"
+    >
+      {{ locations[0] }}
     </div>
   </NuxtLink>
 </template>

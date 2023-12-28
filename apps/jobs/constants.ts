@@ -7,3 +7,13 @@ export const colors = [
   "#21427d",
   "#4e1852",
 ];
+
+export const categories = [
+  "Software Engineering",
+  "Design",
+  "UX",
+  "Design and UX",
+  "IT",
+  "Computer and IT",
+  "Data and Analytics",
+];

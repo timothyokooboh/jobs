@@ -14,14 +14,9 @@ defineEmits(["search", "update:remote", "update:visa_sponsorship"]);
 
 <template>
   <div class="bg-white rounded-[10px] dark:bg-primary-blue">
-    <BaseInputGroup class="border-b border-solid border-[#E2E6EA] w-full">
-      <template #leftAddon>
-        <img src="../images/location.svg" alt="location" />
-      </template>
-      <template #input>
-        <slot />
-      </template>
-    </BaseInputGroup>
+    <div class="border-b border-solid border-[#E2E6EA] w-full">
+      <slot />
+    </div>
 
     <form class="py-6 px-4">
       <div class="flex mb-4">

@@ -1,16 +1,17 @@
 import { ref, computed, watch } from "vue";
 import type { Ref } from "vue";
+import { categories } from "~/constants";
 import type { Job, QueryParams } from "~/types";
 
 export const useGetJobs = (
   query: Ref<QueryParams> = ref({
     page: 1,
+    title: "",
+    category: [...categories],
   }),
 ) => {
   const jobs = ref<Job[]>([]);
   const loading = ref(false);
-
-  const params = ref<Record<string, any>>({ page: query.value.page });
 
   const getData = async () => {
     try {
@@ -27,14 +28,18 @@ export const useGetJobs = (
           id: item.id,
           title: item.name,
           company: item.company.name,
-          locations: item.locations,
+          locations: item.locations.map(
+            (location: { name: string }) => location.name,
+          ),
           remote: !!item.locations.find(
             (location: { name: string }) =>
               location.name === "Flexible / Remote",
           ),
           contents: item.contents,
           published_date: item.publication_date,
-          categories: item.categories,
+          categories: item.categories.map(
+            (category: { name: string }) => category.name,
+          ),
           levels: item.levels,
           url: item.refs.landing_page,
         };
@@ -47,22 +52,38 @@ export const useGetJobs = (
   };
 
   const filteredJobs = computed(() => {
+    let result = jobs.value.filter((job) => {
+      return job.title.toLowerCase().includes(query.value.title.toLowerCase());
+    });
+
+    // handle filtering by remote jobs
     if (query.value.location === "flexible/remote") {
-      return jobs.value.filter((job) => job.remote);
+      result = result.filter((job) => job.remote);
     } else {
-      return jobs.value.filter((job) => !job.remote);
+      result = result.filter((job) => !job.remote);
     }
+
+    // handle filtering by categories
+    let resultByCategory: Job[] = [];
+    if (query.value.category && query.value.category.length > 0) {
+      for (const category of query.value.category) {
+        for (const job of result) {
+          if (job.categories.includes(category)) {
+            resultByCategory.push(job);
+          }
+        }
+      }
+    } else {
+      resultByCategory = result;
+    }
+
+    return resultByCategory;
   });
 
-  // const searchByRemoteOnly = (items: Job[]) => {
-  //   const result = items.filter((job: Job) => {
-  //     return job.remote === query.value.remote;
-  //   });
-  // };
-
   watch(
-    () => query.value.page,
+    () => [query.value.page, query.value.category],
     () => {
+      console.log("why");
       getData();
     },
     {
@@ -73,22 +94,9 @@ export const useGetJobs = (
   watch(
     () => query.value.location,
     () => {
-      console.log("location changed");
       getData();
     },
   );
-
-  // if (query.value.category && query.value.category.length === 0) {
-  //   obj.category = [
-  //     "Software Engineering",
-  //     "Design",
-  //     "UX",
-  //     "Design and UX",
-  //     "IT",
-  //     "Computer and IT",
-  //     "Data and Analytics",
-  //   ];
-  // }
 
   return {
     filteredJobs,
