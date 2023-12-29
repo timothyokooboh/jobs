@@ -1,56 +1,154 @@
 <script setup lang="ts">
-import {
-  BaseInputGroup,
-  BaseInput,
-  BaseCheckbox,
-  BaseButton,
-} from "@app/ui-library";
+import { BaseButton, BaseCheckbox, BaseInput } from "@app/ui-library";
 
-defineProps<{
-  remote: boolean;
-  visa_sponsorship: boolean;
-}>();
-defineEmits(["search", "update:remote", "update:visa_sponsorship"]);
+import { categories } from "~/constants";
+import type { QueryParams } from "~/types";
+
+const emit = defineEmits(["list:jobs", "is:loading"]);
+
+const page = ref(1);
+const title = ref("");
+const remote = ref(false);
+const selectedCategories = ref([...categories]);
+const showCategoryList = ref(false);
+
+const filters = ref<QueryParams>({
+  page: page.value,
+  category: [...selectedCategories.value],
+  title: title.value,
+});
+const { filteredJobs: jobs, loading } = useGetJobs(filters);
+watch(
+  jobs,
+  (newValue) => {
+    emit("list:jobs", newValue);
+  },
+  { immediate: true },
+);
+
+watch(
+  loading,
+  (newValue) => {
+    emit("is:loading", newValue);
+  },
+  { immediate: true },
+);
+
+const isModalOpen = ref(false);
+
+const handleSearch = () => {
+  isModalOpen.value = false;
+  let obj = { ...filters.value, title: title.value };
+
+  if (remote.value) {
+    obj = { ...obj, page: 1, location: "flexible/remote" };
+  }
+
+  if (selectedCategories.value.length > 0) {
+    obj = { ...obj, page: 1, category: [...selectedCategories.value] };
+  }
+
+  if (!remote.value && selectedCategories.value.length === 0) {
+    obj = { page: obj.page, title: obj.title };
+  }
+
+  filters.value = obj;
+  showCategoryList.value = false;
+};
+
+defineExpose({
+  filters,
+});
 </script>
 
 <template>
-  <div class="bg-white rounded-[10px]">
-    <BaseInputGroup class="border-b border-solid border-[#E2E6EA] w-full">
-      <template #leftAddon>
-        <img src="../public/images/location.svg" alt="location" />
-      </template>
-      <template #input>
-        <slot />
-      </template>
-    </BaseInputGroup>
+  <div class="bg-white dark:bg-primary-blue">
+    <SearchByTitle
+      class="md:hidden"
+      @start:filter="isModalOpen = true"
+      @search="handleSearch"
+    >
+      <BaseInput
+        v-model="title"
+        placeholder="Filter by title..."
+        class="w-full"
+      />
+    </SearchByTitle>
 
-    <form class="py-6 px-4">
-      <div class="flex mb-4">
-        <BaseCheckbox
-          id="remote"
-          class="mr-4"
-          :checked="remote"
-          @change="$emit('update:remote', $event.target.checked)"
+    <div class="hidden md:grid md:grid-cols-[1.5fr_1.5fr_2fr] md:items-center">
+      <SearchByTitle
+        class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
+      >
+        <BaseInput
+          v-model="title"
+          placeholder="Filter by title..."
+          class="w-full"
         />
-        <label for="remote" class="text-primary-blue font-[700]">Remote</label>
-      </div>
+      </SearchByTitle>
 
-      <div class="flex mb-6">
-        <BaseCheckbox
-          id="visa"
-          class="mr-4"
-          @change="$emit('update:visa_sponsorship', $event.target.checked)"
-        />
-        <label for="visa" class="text-primary-blue font-[700]"
-          >Visa Sponsorship</label
+      <div>
+        <SearchByCategory
+          class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
         >
+          <BaseInput
+            placeholder="Filter by Category..."
+            @focus="showCategoryList = true"
+          />
+        </SearchByCategory>
+
+        <CategoryList
+          v-if="showCategoryList"
+          v-model:selectedCategories="selectedCategories"
+          class="hidden md:block"
+          @close:dropdown="showCategoryList = false"
+        />
       </div>
 
-      <BaseButton class="w-full" type="button" @click="$emit('search')">
-        <div class="text-white font-[700]">Search</div>
-      </BaseButton>
-    </form>
+      <div class="flex justify-between items-center px-4 py-4">
+        <div class="flex-1">
+          <div>
+            <BaseCheckbox id="remote" v-model="remote" :checked="remote" />
+            <label
+              for="remote"
+              class="text-primary-blue font-[700] ml-8 dark:text-white"
+            >
+              Remote</label
+            >
+          </div>
+        </div>
+        <BaseButton
+          class="ml-2 px-[14px] lg:px-[36px] dark:bg-primary-violet-200"
+          @click="handleSearch"
+        >
+          Search
+        </BaseButton>
+      </div>
+    </div>
+
+    <BaseModal v-if="isModalOpen" @close:modal="isModalOpen = false">
+      <FilterJobsModalContent
+        v-model:remote="remote"
+        class="w-[90%] max-w-[500px]"
+        @search="handleSearch"
+      >
+        <div>
+          <SearchByCategory
+            class="border-r-[1px] border-[#E2E6EA] dark:border-[#2A3342] w-full"
+          >
+            <BaseInput
+              placeholder="Filter by Category..."
+              @focus="showCategoryList = true"
+            />
+          </SearchByCategory>
+
+          <CategoryList
+            v-if="showCategoryList"
+            v-model:selectedCategories="selectedCategories"
+            class="md:hidden"
+            @close:dropdown="showCategoryList = false"
+          />
+        </div>
+      </FilterJobsModalContent>
+    </BaseModal>
   </div>
 </template>
-
-<style scoped></style>

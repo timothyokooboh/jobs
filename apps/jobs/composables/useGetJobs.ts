@@ -1,85 +1,104 @@
-// import { ref, computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import type { Ref } from "vue";
-import type { Job } from "~/types";
+import { categories } from "~/constants";
+import type { Job, QueryParams } from "~/types";
 
 export const useGetJobs = (
-  props: Ref<{
-    page: number;
-    searchTerm: string;
-    location: string;
-    remote: boolean;
-    visa_sponsorship: null | boolean;
-  }>,
+  query: Ref<QueryParams> = ref({
+    page: 1,
+    title: "",
+    category: [...categories],
+  }),
 ) => {
   const jobs = ref<Job[]>([]);
-  const filteredJobs = ref<Job[]>([]);
   const loading = ref(false);
 
-  const test = () => {
-    useFetch<{ data: Job[] }>("https://www.arbeitnow.com/api/job-board-api", {
-      query: {
-        page: props.value.page,
-        visa_sponsorship: props.value.visa_sponsorship,
-      },
-    }).then((res) => {
-      if (res.data.value?.data) {
-        jobs.value = [...jobs.value, ...res.data.value.data];
-        filteredJobs.value = jobs.value;
-        loading.value = res.pending.value;
+  const getData = async () => {
+    try {
+      loading.value = true;
+
+      const { data } = await useFetch<{
+        results: Record<string, any>[];
+      }>("/api/jobs", {
+        query: query.value,
+      });
+
+      const res = data.value?.results.map((item: any) => {
+        return {
+          id: item.id,
+          title: item.name,
+          company: item.company.name,
+          locations: item.locations.map(
+            (location: { name: string }) => location.name,
+          ),
+          remote: !!item.locations.find(
+            (location: { name: string }) =>
+              location.name === "Flexible / Remote",
+          ),
+          contents: item.contents,
+          published_date: item.publication_date,
+          categories: item.categories.map(
+            (category: { name: string }) => category.name,
+          ),
+          levels: item.levels,
+          url: item.refs.landing_page,
+        };
+      }) as Job[];
+
+      jobs.value = [...jobs.value, ...res];
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const filteredJobs = computed(() => {
+    let result = jobs.value.filter((job) => {
+      return job.title.toLowerCase().includes(query.value.title.toLowerCase());
+    });
+
+    // handle filtering by remote jobs
+    if (query.value.location === "flexible/remote") {
+      result = result.filter((job) => job.remote);
+    } else {
+      result = result.filter((job) => !job.remote);
+    }
+
+    // handle filtering by categories
+    let resultByCategory: Job[] = [];
+    if (query.value.category && query.value.category.length > 0) {
+      for (const category of query.value.category) {
+        for (const job of result) {
+          if (job.categories.includes(category)) {
+            resultByCategory.push(job);
+          }
+        }
       }
-    });
-  };
+    } else {
+      resultByCategory = result;
+    }
 
-  const searchByTitle = () => {
-    filteredJobs.value = jobs.value.filter((job: Job) => {
-      return job.title
-        .toLowerCase()
-        .includes(props.value.searchTerm.toLowerCase());
-    });
-  };
-
-  const searchByLocation = () => {
-    const result = jobs.value.filter((job: Job) => {
-      return job.location
-        .toLowerCase()
-        .includes(props.value.location.toLowerCase());
-    });
-
-    return result;
-  };
-
-  const searchByRemoteOnly = (items: Job[]) => {
-    const result = items.filter((job: Job) => {
-      return job.remote === props.value.remote;
-    });
-
-    return result;
-  };
-
-  const search = () => {
-    const jobsByLocation = searchByLocation();
-    const jobsByRemoteOnly = searchByRemoteOnly(jobsByLocation);
-    filteredJobs.value = jobsByRemoteOnly;
-  };
+    return resultByCategory;
+  });
 
   watch(
-    [() => props.value.page, () => props.value.visa_sponsorship],
+    () => [query.value.page, query.value.category],
     () => {
-      test();
+      getData();
     },
-    { immediate: true },
+    {
+      immediate: true,
+    },
   );
 
   watch(
-    () => props.value.searchTerm,
+    () => query.value.location,
     () => {
-      searchByTitle();
+      getData();
     },
   );
 
   return {
-    loading,
     filteredJobs,
-    search,
+    loading,
   };
 };

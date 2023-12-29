@@ -1,11 +1,18 @@
 export interface Job {
-  slug: string;
+  id: number | string;
   title: string;
-  description: string;
-  company_name: string;
-  url: string;
+  company: string;
+  locations: { name: string }[];
   remote: boolean;
-  tags: string[];
-  location: string;
-  created_at: number;
+  contents: string;
+  published_date: string;
+  categories: string[];
+  url: string;
+}
+
+export interface QueryParams {
+  page: number;
+  title: string;
+  category?: string[];
+  location?: string;
 }

@@ -1,41 +1,53 @@
 <template>
-  <div class="relative cursor-pointer inline-block group checkbox-container">
+  <label class="checkbox-wrapper group">
     <input
-      ref="fuck"
       type="checkbox"
-      class="appearance-none cursor-pointer h-[24px] w-[24px] rounded-[3px] duration-200 bg-[#E7E8E9] checked:bg-primary-violet-200 group-hover:bg-[#D7D8F7]"
       :value="modelValue"
       @change="handleChange"
       v-bind="$attrs"
     />
-    <img
-      src="@rootImages/checkmark.svg"
-      alt="checkmark"
-      class="absolute top-[5px] left-[5px] icon"
-    />
-  </div>
+    <span
+      class="checkmark bg-[#e7e8e9] dark:bg-[#313743] group-hover:bg-[#D7D8F7] dark:group-hover:bg-primary-midnight"
+    ></span>
+  </label>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
-defineProps({
-  modelValue: Boolean,
+const props = defineProps({
+  modelValue: {
+    type: null,
+  },
+  checkValue: {
+    type: null,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 const handleChange = (e: Event) => {
-  emit("update:modelValue", (e.target as HTMLInputElement).checked);
+  if (props.checkValue) {
+    if ((e.target as HTMLInputElement).checked) {
+      if (Array.isArray(props.modelValue)) {
+        const arr = props.modelValue;
+        arr.push(props.checkValue);
+        emit("update:modelValue", arr);
+      } else {
+        emit("update:modelValue", props.checkValue);
+      }
+    } else {
+      if (Array.isArray(props.modelValue)) {
+        let arr = props.modelValue;
+        arr = arr.filter((item) => item != props.checkValue);
+
+        emit("update:modelValue", arr);
+      } else {
+        emit("update:modelValue", "");
+      }
+    }
+  } else {
+    emit("update:modelValue", (e.target as HTMLInputElement).checked);
+  }
 };
-
-const fuck = ref<HTMLInputElement | null>(null);
-
-// const isChecked = () => {
-//   console.log(fuck.value);
-//   console.log(fuck.value?.checked);
-//   return fuck.value?.checked;
-// };
 </script>
 
 <script lang="ts">
@@ -45,13 +57,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.checkbox-container:has(input:checked) {
-  .icon {
-    display: block;
-  }
+/* The checkbox-wrapper */
+.checkbox-wrapper {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.icon {
+/* Hide the browser's default checkbox */
+.checkbox-wrapper input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border-radius: 5px;
+}
+
+/* On mouse-over, add a grey background color */
+// .checkbox-wrapper:hover input ~ .checkmark {
+//   background-color: #d7e8f7;
+// }
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-wrapper input:checked ~ .checkmark {
+  background-color: #5964e0;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
   display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-wrapper input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-wrapper .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 </style>

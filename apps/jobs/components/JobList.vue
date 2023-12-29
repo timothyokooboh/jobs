@@ -8,22 +8,20 @@ defineProps<{
 
 <template>
   <div>
-    <div class="flex flex-col gap-y-[49px]">
+    <div v-if="jobs.length === 0" class="text-center">No results found</div>
+    <div
+      class="md:grid gap-y-[49px] gap-x-[11px] md:grid-cols-2 lg:grid-cols-3"
+    >
       <JobListItem
-        v-for="job in jobs"
-        :key="job.slug"
-        :title="job.title"
-        :slug="job.slug"
-        :description="job.description"
-        :tags="job.tags"
-        :created_at="job.created_at"
-        :company_name="job.company_name"
-        :url="job.url"
-        :remote="job.remote"
-        :location="job.location"
+        v-for="job in jobs || []"
+        :key="job.id"
+        v-bind="job"
+        class="hover:translate-y-[-5px] duration-200 w-full mb-[49px] md:mb-0"
       />
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss">
+// css
+</style>

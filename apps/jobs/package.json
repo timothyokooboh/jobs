@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint . --ext .vue,.js,.ts",
+    "lint:fix": "eslint --fix --ext .vue,.js,.ts"
   },
   "dependencies": {
     "@app/foundations": "*",
@@ -17,13 +19,17 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@types/google-translate-api": "^2.3.5",
     "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "nuxt": "^3.8.1",
     "nuxt-icon": "^0.6.7",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
     "vue": "^3.3.8",
+    "vue-eslint-parser": "^9.3.2",
     "vue-router": "^4.2.5"
   }
 }
