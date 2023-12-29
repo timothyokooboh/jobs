@@ -17,12 +17,6 @@ const handleChange = (e: Event, value: string) => {
     emit("update:selectedCategories", categories);
   }
 };
-
-//const selectedCategories = ref([]);
-
-// watchEffect(() => {
-//   emit("update:selectedCategories", selectedCategories.value);
-// });
 </script>
 
 <template>

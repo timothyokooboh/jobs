@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  BaseInputGroup,
-  BaseInput,
-  BaseCheckbox,
-  BaseButton,
-} from "@app/ui-library";
+import { BaseCheckbox, BaseButton } from "@app/ui-library";
 
 defineProps<{
   remote: boolean;

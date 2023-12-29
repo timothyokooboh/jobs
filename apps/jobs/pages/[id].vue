@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Job } from "~/types";
 import { BaseButton } from "@app/ui-library";
+import type { Job } from "~/types";
 
 const route = useRoute();
 const { data, pending } = useFetch<{
@@ -29,7 +29,7 @@ const job = ref<Job>({
 
 watch(
   data,
-  (newValue) => {
+  () => {
     if (data.value) {
       job.value = {
         id: data.value.id,
@@ -133,9 +133,9 @@ watch(
 
         <div
           v-if="job.contents"
-          v-html="job.contents"
           class="mt-8 text-secondary-grey-300 leading-[26px]"
           style="font-weight: 400"
+          v-html="job.contents"
         />
       </div>
 

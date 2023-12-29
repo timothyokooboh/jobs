@@ -8,5 +8,14 @@
   "devDependencies": {
     "prettier": "^3.1.0",
     "turbo": "^1.10.16"
+  },
+  "scripts": {
+    "dev": "yarn turbo run dev",
+    "build": "yarn turbo run build",
+    "lint": "yarn turbo run lint",
+    "lint:fix": "yarn turbo run lint:fix",
+    "format:fix": "yarn turbo run format:fix",
+    "format:check": "yarn turbo run format:check",
+    "test:unit": "yarn turbo run test:unit"
   }
 }

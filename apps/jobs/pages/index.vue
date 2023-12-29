@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { BaseButton, BaseCheckbox } from "@app/ui-library";
+import { BaseButton } from "@app/ui-library";
 import FilterJobs from "~/components/FilterJobs.vue";
 import type { Job } from "~/types";
 
 const jobs = ref<Job[]>([]);
-const e = ref([]);
 const loading = ref(false);
 const filterJobsRef = ref<{ filters: { page: number } } | null>(null);
 
@@ -19,9 +18,9 @@ const handlePagination = () => {
   <div>
     <FilterJobs
       ref="filterJobsRef"
+      class="mb-10 relative top-[-35px]"
       @list:jobs="jobs = $event"
       @is:loading="loading = $event"
-      class="mb-10 relative top-[-35px]"
     />
 
     <Transition name="fade" mode="out-in" appear>
@@ -32,6 +31,7 @@ const handlePagination = () => {
       >
         <BaseSkeletonLoader
           v-for="n in 20"
+          :key="n"
           class="max-w-[100%] md:max-w-[350px]"
         />
       </div>
@@ -47,8 +47,8 @@ const handlePagination = () => {
 
             <div class="flex justify-center pb-[62px]">
               <BaseButton
-                @click="handlePagination"
                 class="dark:bg-primary-violet-200"
+                @click="handlePagination"
               >
                 Load More
               </BaseButton>

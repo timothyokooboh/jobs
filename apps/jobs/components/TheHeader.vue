@@ -22,9 +22,8 @@ const { toggleDark } = useDarkMode();
     >
       techjobs
     </NuxtLink>
-    <!-- <img src="/images/jobs-logo.svg" class="w-[115px] h-[32px] z-[2]" /> -->
 
-    <BaseDarkModeSwitch @click="toggleDark()" class="z-[2]" />
+    <BaseDarkModeSwitch class="z-[2]" @click="toggleDark()" />
   </div>
 </template>
 

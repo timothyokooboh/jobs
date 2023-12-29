@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseInputGroup, BaseInput } from "@app/ui-library";
+import { BaseInputGroup } from "@app/ui-library";
 defineEmits(["start:filter", "search"]);
 </script>
 
@@ -17,8 +17,8 @@ defineEmits(["start:filter", "search"]);
             @click="$emit('start:filter')"
           />
           <button
-            @click="$emit('search')"
             class="h-[48px] w-[48px] bg-primary-violet-200 flex items-center justify-center rounded-[5px]"
+            @click="$emit('search')"
           >
             <Icon name="ic:outline-search" size="32px" color="white" />
           </button>

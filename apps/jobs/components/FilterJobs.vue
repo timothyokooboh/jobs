@@ -37,7 +37,6 @@ watch(
 const isModalOpen = ref(false);
 
 const handleSearch = () => {
-  console.log("shoot");
   isModalOpen.value = false;
   let obj = { ...filters.value, title: title.value };
 
@@ -100,8 +99,8 @@ defineExpose({
         <CategoryList
           v-if="showCategoryList"
           v-model:selectedCategories="selectedCategories"
-          @close:dropdown="showCategoryList = false"
           class="hidden md:block"
+          @close:dropdown="showCategoryList = false"
         />
       </div>
 
@@ -118,8 +117,8 @@ defineExpose({
           </div>
         </div>
         <BaseButton
-          @click="handleSearch"
           class="ml-2 px-[14px] lg:px-[36px] dark:bg-primary-violet-200"
+          @click="handleSearch"
         >
           Search
         </BaseButton>
@@ -128,9 +127,9 @@ defineExpose({
 
     <BaseModal v-if="isModalOpen" @close:modal="isModalOpen = false">
       <FilterJobsModalContent
-        @search="handleSearch"
         v-model:remote="remote"
         class="w-[90%] max-w-[500px]"
+        @search="handleSearch"
       >
         <div>
           <SearchByCategory
@@ -145,8 +144,8 @@ defineExpose({
           <CategoryList
             v-if="showCategoryList"
             v-model:selectedCategories="selectedCategories"
-            @close:dropdown="showCategoryList = false"
             class="md:hidden"
+            @close:dropdown="showCategoryList = false"
           />
         </div>
       </FilterJobsModalContent>

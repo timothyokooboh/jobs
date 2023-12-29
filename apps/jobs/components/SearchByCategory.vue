@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseInputGroup, BaseInput } from "@app/ui-library";
+import { BaseInputGroup } from "@app/ui-library";
 </script>
 
 <template>
