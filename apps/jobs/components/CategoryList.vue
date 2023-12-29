@@ -8,8 +8,7 @@ const props = defineProps<{
 const emit = defineEmits(["update:selectedCategories", "close:dropdown"]);
 const handleChange = (e: Event, value: string) => {
   const isChecked = (e.target as HTMLInputElement).checked;
-  console.log("checked", (e.target as HTMLInputElement).checked);
-  console.log("value", (e.target as HTMLInputElement).value);
+
   let categories = [...props.selectedCategories];
   if (isChecked) {
     emit("update:selectedCategories", [...categories, value]);

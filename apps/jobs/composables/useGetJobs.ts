@@ -83,7 +83,6 @@ export const useGetJobs = (
   watch(
     () => [query.value.page, query.value.category],
     () => {
-      console.log("why");
       getData();
     },
     {

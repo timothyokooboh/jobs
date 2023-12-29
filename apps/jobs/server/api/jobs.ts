@@ -9,7 +9,6 @@ export default eventHandler(async (event) => {
       },
     });
 
-    console.log("e reach here", data);
     return data;
   } catch (err) {
     throw createError({
