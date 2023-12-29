@@ -22,13 +22,13 @@ jobs:
           cache: yarn
 
       - name: install dependencies
-        run: yarn
-
-      - name: build
-        run: yarn build
+        run: yarn install
 
       - name: check formatting
         run: yarn format:check
 
       - name: lint
         run: yarn lint
+
+      - name: build
+        run: yarn build
