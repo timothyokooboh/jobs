@@ -1,5 +1,6 @@
 {
   "name": "jobs",
+  "license": "MIT",
   "workspaces": [
     "packages/*",
     "apps/*"
