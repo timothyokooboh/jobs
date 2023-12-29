@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - main
+      - develop
 
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   actions:
@@ -24,5 +26,5 @@ jobs:
       - name: install dependencies
         run: yarn install
 
-      - name: deploy
+      - name: deploys
         run: yarn deploy
