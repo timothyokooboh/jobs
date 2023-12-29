@@ -2,6 +2,8 @@
   "name": "@app/jobs",
   "private": true,
   "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
