@@ -1,6 +1,7 @@
 {
   "name": "jobs",
   "license": "MIT",
+  "private": true,
   "workspaces": [
     "packages/*",
     "apps/*"
