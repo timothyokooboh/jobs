@@ -16,6 +16,7 @@
     "lint:fix": "yarn turbo run lint:fix",
     "format:fix": "yarn turbo run format:fix",
     "format:check": "yarn turbo run format:check",
-    "test:unit": "yarn turbo run test:unit"
+    "test:unit": "yarn turbo run test:unit",
+    "deploy": "yarn turbo run deploy"
   }
 }
