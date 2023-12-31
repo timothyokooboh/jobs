@@ -5,7 +5,10 @@ export default defineNuxtConfig({
     apiKey: process.env.NUXT_THE_MUSE_API_KEY,
   },
   nitro: {
-    preset: "node-server",
+    preset: "vercel",
+    output: {
+      dir: ".vercel/output",
+    },
   },
 
   css: ["~/assets/css/main.css"],
