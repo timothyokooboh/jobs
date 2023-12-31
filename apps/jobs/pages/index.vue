@@ -2,6 +2,9 @@
 import { BaseButton } from "@app/ui-library";
 import FilterJobs from "~/components/FilterJobs.vue";
 import type { Job } from "~/types";
+import { useHandleScroll } from "~/composables/useHandleScroll";
+
+const { scrollToTop, hasScrolledAwayFromTop } = useHandleScroll();
 
 const jobs = ref<Job[]>([]);
 const loading = ref(false);
@@ -56,6 +59,19 @@ const handlePagination = () => {
           </div>
         </Transition>
       </div>
+    </Transition>
+
+    <Transition name="fade">
+      <button
+        v-if="hasScrolledAwayFromTop"
+        class="flex items-center justify-center h-[40px] w-[40px] bg-primary-violet-200 fixed bottom-[20px] right-[20px] z-10"
+        @click="scrollToTop"
+      >
+        <Icon
+          name="material-symbols-light:arrow-upward"
+          class="text-white text-2xl font-[700]"
+        />
+      </button>
     </Transition>
   </div>
 </template>
