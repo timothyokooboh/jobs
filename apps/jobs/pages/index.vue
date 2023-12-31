@@ -38,7 +38,7 @@ const handlePagination = () => {
 
       <div v-else key="data">
         <Transition name="fade" mode="out-in">
-          <div v-if="jobs.length === 0" class="text-center">
+          <div v-if="jobs.length === 0" class="text-center dark:text-white">
             No results found
           </div>
 
