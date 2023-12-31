@@ -92,7 +92,8 @@ export const useGetJobs = (
 
   watch(
     () => query.value.location,
-    () => {
+    (newValue) => {
+      console.log("remote", newValue);
       getData();
     },
   );

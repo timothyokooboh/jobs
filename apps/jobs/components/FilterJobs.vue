@@ -42,14 +42,15 @@ const handleSearch = () => {
 
   if (remote.value) {
     obj = { ...obj, page: 1, location: "flexible/remote" };
+  } else {
+    delete obj.location;
   }
 
   if (selectedCategories.value.length > 0) {
     obj = { ...obj, page: 1, category: [...selectedCategories.value] };
-  }
-
-  if (!remote.value && selectedCategories.value.length === 0) {
-    obj = { page: obj.page, title: obj.title };
+  } else {
+    // use the default tech jobs categories
+    obj = { ...obj, page: 1, category: categories };
   }
 
   filters.value = obj;
