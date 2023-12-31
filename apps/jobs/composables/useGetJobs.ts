@@ -80,6 +80,18 @@ export const useGetJobs = (
     return resultByCategory;
   });
 
+  const jobsWithoutDuplicates = computed(() => {
+    const result: Job[] = [];
+    for (const job of filteredJobs.value) {
+      const data = result.find((item) => item.id === job.id);
+      if (!data) {
+        result.push(job);
+      }
+    }
+
+    return result;
+  });
+
   watch(
     () => [query.value.page, query.value.category],
     () => {
@@ -92,14 +104,13 @@ export const useGetJobs = (
 
   watch(
     () => query.value.location,
-    (newValue) => {
-      console.log("remote", newValue);
+    () => {
       getData();
     },
   );
 
   return {
-    filteredJobs,
+    filteredJobs: jobsWithoutDuplicates,
     loading,
   };
 };
