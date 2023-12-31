@@ -3,6 +3,8 @@ import { BaseButton } from "@app/ui-library";
 import type { Job } from "~/types";
 
 const route = useRoute();
+const isJobFound = ref(true);
+
 const { data, pending } = useFetch<{
   id: string;
   name: string;
@@ -30,7 +32,9 @@ const job = ref<Job>({
 watch(
   data,
   () => {
+    console.log("data", data.value);
     if (data.value) {
+      isJobFound.value = true;
       job.value = {
         id: data.value.id,
         title: data.value.name,
@@ -45,6 +49,8 @@ watch(
 
         url: data.value.refs.landing_page,
       };
+    } else {
+      isJobFound.value = false;
     }
   },
   { immediate: true },
@@ -59,102 +65,111 @@ watch(
     </div>
 
     <section v-else>
-      <div
-        class="relative bg-white top-[-10px] pt-[40px] pb-[40px] mb-6 dark:bg-primary-blue md:flex md:justify-between md:items-center md:py-0 md:pr-10"
-      >
-        <div class="mb-[27px] md:mb-0 md:flex md:items-center">
-          <div
-            class="w-[50px] h-[50px] rounded-[15px] flex justify-center items-center absolute left-[50%] top-[-25px] shadow-md translate-x-[-50%] md:relative md:left-0 md:top-0 md:translate-x-0 md:mr-10 md:w-[140px] md:h-[140px] md:rounded-none"
-            :style="{
-              backgroundColor: generateRandomColors(),
-            }"
-          >
+      <div v-if="isJobFound">
+        <div
+          class="relative bg-white top-[-10px] pt-[40px] pb-[40px] mb-6 dark:bg-primary-blue md:flex md:justify-between md:items-center md:py-0 md:pr-10"
+        >
+          <div class="mb-[27px] md:mb-0 md:flex md:items-center">
             <div
-              v-if="job.company"
-              class="uppercase font-[700] text-[10px] text-white"
+              class="w-[50px] h-[50px] rounded-[15px] flex justify-center items-center absolute left-[50%] top-[-25px] shadow-md translate-x-[-50%] md:relative md:left-0 md:top-0 md:translate-x-0 md:mr-10 md:w-[140px] md:h-[140px] md:rounded-none"
+              :style="{
+                backgroundColor: generateRandomColors(),
+              }"
             >
-              <div class="md:hidden">
-                {{ job.company.slice(0, 4) }}
+              <div
+                v-if="job.company"
+                class="uppercase font-[700] text-[10px] text-white"
+              >
+                <div class="md:hidden">
+                  {{ job.company.slice(0, 4) }}
+                </div>
+                <div class="hidden md:block">
+                  {{ job.company.slice(0, 10) }}
+                </div>
               </div>
-              <div class="hidden md:block">
-                {{ job.company.slice(0, 10) }}
-              </div>
+            </div>
+
+            <div
+              class="text-center text-primary-blue text-[20px] font-[700] dark:text-white"
+            >
+              {{ job.company }}
             </div>
           </div>
 
-          <div
-            class="text-center text-primary-blue text-[20px] font-[700] dark:text-white"
-          >
-            {{ job.company }}
+          <div class="text-center">
+            <a
+              :href="job.url"
+              target="_blank"
+              class="text-primary-violet-200 font-[700] bg-[#EEEFFC] px-5 py-4 rounded-[5px] dark:bg-[#1F273F]"
+            >
+              Company Site
+            </a>
           </div>
         </div>
 
-        <div class="text-center">
-          <a
-            :href="job.url"
-            target="_blank"
-            class="text-primary-violet-200 font-[700] bg-[#EEEFFC] px-5 py-4 rounded-[5px] dark:bg-[#1F273F]"
-          >
-            Company Site
-          </a>
-        </div>
-      </div>
-
-      <div class="bg-white py-10 px-6 mb-[140px] dark:bg-primary-blue">
-        <section class="md:flex md:justify-between md:items-center">
-          <div>
-            <div
-              class="text-secondary-grey-300 text-[16px] font-normal mb-3 dark:text-secondary-grey-300"
-            >
-              1w ago
-            </div>
-            <div
-              class="text-primary-blue text-[20px] font-[700] mb-3 dark:text-white"
-            >
-              {{ job.title }}
-            </div>
+        <div class="bg-white py-10 px-6 mb-[140px] dark:bg-primary-blue">
+          <section class="md:flex md:justify-between md:items-center">
             <div>
               <div
-                v-for="location in job.locations"
-                :key="location.name"
-                class="text-primary-violet-200 text-[14px] font-[700]"
+                class="text-secondary-grey-300 text-[16px] font-normal mb-3 dark:text-secondary-grey-300"
               >
-                {{ location.name }}
+                1w ago
+              </div>
+              <div
+                class="text-primary-blue text-[20px] font-[700] mb-3 dark:text-white"
+              >
+                {{ job.title }}
+              </div>
+              <div>
+                <div
+                  v-for="location in job.locations"
+                  :key="location.name"
+                  class="text-primary-violet-200 text-[14px] font-[700]"
+                >
+                  {{ location.name }}
+                </div>
               </div>
             </div>
-          </div>
 
+            <a :href="job.url" target="_blank">
+              <BaseButton class="w-full mt-[57px] dark:bg-primary-violet-200"
+                >Apply Now</BaseButton
+              >
+            </a>
+          </section>
+
+          <div
+            v-if="job.contents"
+            class="mt-8 text-secondary-grey-300 leading-[26px]"
+            style="font-weight: 400"
+            v-html="job.contents"
+          />
+        </div>
+
+        <div
+          class="bg-white z-10 p-6 fixed left-0 bottom-0 w-full dark:bg-primary-blue md:flex md:justify-between md:items-center"
+        >
+          <div class="hidden md:block">
+            <div class="text-primary-blue text-5 font-[700] dark:text-white">
+              {{ job.title }}
+            </div>
+            <div class="text-secondary-grey-300 text-base font-normal">
+              {{ job.company }}
+            </div>
+          </div>
           <a :href="job.url" target="_blank">
-            <BaseButton class="w-full mt-[57px] dark:bg-primary-violet-200"
+            <BaseButton class="w-full dark:bg-primary-violet-200 md:w-fit"
               >Apply Now</BaseButton
             >
           </a>
-        </section>
-
-        <div
-          v-if="job.contents"
-          class="mt-8 text-secondary-grey-300 leading-[26px]"
-          style="font-weight: 400"
-          v-html="job.contents"
-        />
+        </div>
       </div>
 
-      <div
-        class="bg-white z-10 p-6 fixed left-0 bottom-0 w-full dark:bg-primary-blue md:flex md:justify-between md:items-center"
-      >
-        <div class="hidden md:block">
-          <div class="text-primary-blue text-5 font-[700] dark:text-white">
-            {{ job.title }}
-          </div>
-          <div class="text-secondary-grey-300 text-base font-normal">
-            {{ job.company }}
-          </div>
+      <div v-else class="flex flex-col justify-center items-center">
+        <img src="/images/no-data.png" />
+        <div class="text-lg text-center text-primary-blue dark:text-white">
+          No data found for job with ID {{ $route.params.id }}
         </div>
-        <a :href="job.url" target="_blank">
-          <BaseButton class="w-full dark:bg-primary-violet-200 md:w-fit"
-            >Apply Now</BaseButton
-          >
-        </a>
       </div>
     </section>
   </Transition>
