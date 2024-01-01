@@ -38,20 +38,22 @@ const handleChange = (e: Event, value: string) => {
       </button>
 
       <div class="mt-3">
-        <div
-          v-for="category in categories"
-          :key="category"
-          class="flex items-center mb-3"
-        >
-          <BaseCheckbox
-            :id="category"
-            :check-value="category"
-            :checked="selectedCategories.includes(category)"
-            @change="handleChange($event, category)"
-          />
-          <label :for="category" class="mt-3 dark:text-white">{{
-            category
-          }}</label>
+        <div class="h-[200px] overflow-auto">
+          <div
+            v-for="category in categories"
+            :key="category"
+            class="flex items-center mb-3"
+          >
+            <BaseCheckbox
+              :id="category"
+              :check-value="category"
+              :checked="selectedCategories.includes(category)"
+              @change="handleChange($event, category)"
+            />
+            <label :for="category" class="mt-3 dark:text-white">{{
+              category
+            }}</label>
+          </div>
         </div>
         <BaseButton
           class="py-2 w-full mt-3 dark:bg-primary-violet-200"
