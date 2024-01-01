@@ -165,12 +165,9 @@ watch(
         </div>
       </div>
 
-      <div v-else class="flex flex-col justify-center items-center">
-        <img src="/images/no-data.png" />
-        <div class="text-lg text-center text-primary-blue dark:text-white">
-          No data found for job with ID {{ $route.params.id }}
-        </div>
-      </div>
+      <EmptyState v-else>
+        <div>No data found for job with ID {{ $route.params.id }}</div>
+      </EmptyState>
     </section>
   </Transition>
 </template>

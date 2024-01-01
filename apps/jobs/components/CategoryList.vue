@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { BaseCheckbox } from "@app/ui-library";
+import { BaseCheckbox, BaseButton } from "@app/ui-library";
 import { categories } from "~/constants";
 const props = defineProps<{
   selectedCategories: string[];
 }>();
 
-const emit = defineEmits(["update:selectedCategories", "close:dropdown"]);
+const emit = defineEmits([
+  "update:selectedCategories",
+  "close:dropdown",
+  "search:jobs",
+]);
+
 const handleChange = (e: Event, value: string) => {
   const isChecked = (e.target as HTMLInputElement).checked;
 
@@ -48,6 +53,12 @@ const handleChange = (e: Event, value: string) => {
             category
           }}</label>
         </div>
+        <BaseButton
+          class="py-2 w-full mt-3 dark:bg-primary-violet-200"
+          @click="$emit('search:jobs')"
+        >
+          Search
+        </BaseButton>
       </div>
     </div>
   </div>

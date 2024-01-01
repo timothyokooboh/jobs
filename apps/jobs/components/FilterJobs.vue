@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { BaseButton, BaseCheckbox, BaseInput } from "@app/ui-library";
+import { watchDebounced } from "@vueuse/core";
 
 import { categories } from "~/constants";
 import type { QueryParams } from "~/types";
@@ -9,6 +10,7 @@ const emit = defineEmits(["list:jobs", "is:loading"]);
 const page = ref(1);
 const title = ref("");
 const remote = ref(false);
+const isModalOpen = ref(false);
 const selectedCategories = ref([...categories]);
 const showCategoryList = ref(false);
 
@@ -18,6 +20,7 @@ const filters = ref<QueryParams>({
   title: title.value,
 });
 const { filteredJobs: jobs, loading } = useGetJobs(filters);
+
 watch(
   jobs,
   (newValue) => {
@@ -34,7 +37,15 @@ watch(
   { immediate: true },
 );
 
-const isModalOpen = ref(false);
+watchDebounced(
+  title,
+  () => {
+    handleSearch();
+  },
+  {
+    debounce: 1000,
+  },
+);
 
 const handleSearch = () => {
   isModalOpen.value = false;
@@ -73,6 +84,7 @@ defineExpose({
         v-model="title"
         placeholder="Filter by title..."
         class="w-full"
+        @keypress.enter="handleSearch"
       />
     </SearchByTitle>
 
@@ -84,6 +96,7 @@ defineExpose({
           v-model="title"
           placeholder="Filter by title..."
           class="w-full"
+          @keypress.enter="handleSearch"
         />
       </SearchByTitle>
 
@@ -102,6 +115,7 @@ defineExpose({
           v-model:selectedCategories="selectedCategories"
           class="hidden md:block"
           @close:dropdown="showCategoryList = false"
+          @search:jobs="handleSearch"
         />
       </div>
 
@@ -147,6 +161,7 @@ defineExpose({
             v-model:selectedCategories="selectedCategories"
             class="md:hidden"
             @close:dropdown="showCategoryList = false"
+            @search:jobs="handleSearch"
           />
         </div>
       </FilterJobsModalContent>
